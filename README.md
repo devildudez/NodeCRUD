@@ -43,3 +43,8 @@ Now that we’ve learned about the anatomy of our endpoints and the different re
 * Create a PostgreSQL database by renaming `.env.sample` to `.env` and updating the information to your details.
 * Run `yarn install` to install dependencies.
 * Run `yarn start` to compile the app and connect to server `localhost: 8081`
+
+---
+
+## Credits
+Base project: [CRUD with NodeJS & PostgreSQL](https://github.com/TomisinAjayi/CRUD-with-NodeJS-PostgreSQL) by @TomisinAjayi — used as a starting template.
