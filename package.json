@@ -1,5 +1,5 @@
 {
-  "name": "CRUD-with-nodejs-postgreSQL",
+  "name": "nursery-management-api",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",

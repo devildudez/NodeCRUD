@@ -1,18 +1,24 @@
 import express from "express";
-import { validate } from "../middleware/validate"
-import { createBlogController, deleteBlogController, findAllBlogsController, findBlogController, updateBlogController } from "../controller/blog.controller";
-import { createBlogSchema, updateBlogSchema } from "../controller/blog.schema";
+import { validate } from "../middleware/validate";
+import {
+    createChildController,
+    deleteChildController,
+    findAllChildrenController,
+    findChildController,
+    updateChildController,
+} from "../controller/child.controller";
+import { createChildSchema, params, updateChildSchema } from "../controller/child.schema";
 
 const router = express.Router();
 
+router.route("/").get(findAllChildrenController).post(validate(createChildSchema), createChildController);
 router
-    .route("/")
-    .get(findAllBlogsController)
-    .post(validate(createBlogSchema), createBlogController);
-router
-    .route("/:blogId")
-    .get(findBlogController)
-    .patch(validate(updateBlogSchema), updateBlogController)
-    .delete(deleteBlogController);
+    .route("/:childId")
+    .get(validate(params), findChildController)
+    .patch(validate(updateChildSchema), updateChildController)
+    .delete(validate(params), deleteChildController);
+     router.get('/hello', function (req, res) {
+         res.render("hello world");
+     })
 
-    export default router;
+export default router;

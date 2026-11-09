@@ -3,7 +3,7 @@ import express, { Request, Response } from "express";
 import morgan from "morgan";
 import cors from "cors";
 import { connectDB, sequelize } from "./db";
-import blogRouter from "./routes/routes";
+import childrenRouter from "./routes/routes";
 
 const app = express();
 
@@ -20,11 +20,11 @@ app.use(
 app.get("/api/healthchecker", (req: Request, res: Response) => {
     res.status(200).json({
         status: "success",
-        message: "CRUD API with Node.js, Sequelize and PostgreSQL by Tomisin Ajayi",
+        message: "Nursery management API is running",
     });
 });
 
-app.use("/api/blogs", blogRouter);
+app.use("/api/children", childrenRouter);
 
 //route not found - error display
 app.all("*", (req: Request, res: Response) => {

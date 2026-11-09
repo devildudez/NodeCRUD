@@ -1,50 +1,52 @@
-#  Build a CRUD API with Node.js and PostgreSQL
+# Nursery Management API
 
-A CRUD API created with Node.js, Express.js, Sequelize and PostgreSQL. The REST API will run on an Express.js server and the endpoints for performing CRUD operations against a PostgreSQL database.
+A REST API for managing nursery child records, built with Node.js, Express, Sequelize, and PostgreSQL.
 
-## General info
+## Features
 
-Full functioning CRUD(Create, Read, Update, Delete) Blog Application. 
+- Create, view, update, and remove child enrollment records.
+- Store guardian and emergency contact details, allergies, room assignment, and enrollment status.
+- Paginate the child directory with `page` and `limit` query parameters.
+- Validate request bodies and UUID route parameters.
 
-## Request Methods
+## API
 
-These are the methods chosen on the Postman which is used for testing the endpoints.
+Base URL: `http://localhost:8081`
 
-| Method   | Description                              |
-| -------- | ---------------------------------------- |
-| `GET`    | Used to retrieve a single item or collection of items. |
-| `POST`   | Used when creating new items e.g. a new blog |
-| `PATCH`  | Used to update one or more fields on an item e.g. update title of a blog. |
-| `DELETE` | Used to delete an item.                  |
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| `GET` | `/api/children` | List child records (`?page=1&limit=10`) |
+| `GET` | `/api/children/:childId` | Get one child record |
+| `POST` | `/api/children` | Enroll a child / create a record |
+| `PATCH` | `/api/children/:childId` | Update one or more child fields |
+| `DELETE` | `/api/children/:childId` | Remove a child record |
+| `GET` | `/api/healthchecker` | Check that the API is running |
 
-## Endpoints
+### Create a child record
 
-Now that we’ve learned about the anatomy of our endpoints and the different request methods that we should use, it’s time for some examples: 
+Required fields: `firstName`, `lastName`, `dateOfBirth` (`YYYY-MM-DD`), `guardianName`, and `guardianPhone`.
 
-`BASE_URL: http://localhost:8081`
+Optional fields: `emergencyContact`, `allergies`, `room`, and `enrollmentStatus`. Enrollment status is `enrolled`, `waitlisted`, or `withdrawn` and defaults to `enrolled`.
 
-| Method   | URL                                      | Description                              |
-| -------- | ---------------------------------------- | ---------------------------------------- |
-| `GET`    | `/api/blogs`                             | Retrieve all blogs.    
-| `GET`    | `/api/blogs/:id`                             | Retrieve a blog.                   |
-| `POST`   | `/api/blogs`                             | Create a new blog.                       |
-| `PATCH`    | `/api/blogs/:id`                          | Update a blog.                    |
-| `DELETE`  | `/api/blogs/:id`                          | Delete a blog.                 |
-| `GET`  | `/api/healthchecker`                          | To test succession of the API.                 |
+```json
+{
+  "firstName": "Ava",
+  "lastName": "Morgan",
+  "dateOfBirth": "2022-04-18",
+  "guardianName": "Jamie Morgan",
+  "guardianPhone": "+1 555 010 1234",
+  "emergencyContact": "Taylor Morgan, +1 555 010 9876",
+  "allergies": "Peanuts",
+  "room": "Sunflower Room",
+  "enrollmentStatus": "enrolled"
+}
+```
 
-## Technologies
+## Run locally
 
-* [Node](https://nodejs.org/en) should be installed on your PC. 
-* [PostgreSQL](https://www.postgresql.org/download/) needs to be installed and running.
-* [Docker](https://www.docker.com/) should be installed and Makefile is in the repository folder to create compose docker.
-* [Postman](https://www.postman.com/) to perform CRUD operations on the backend database.
+1. Copy `.env.sample` to `.env` and set the PostgreSQL connection details (`DATABASE_URL`).
+2. Run `yarn install`.
+3. Start PostgreSQL with `make dev` or use an existing database.
+4. Run `yarn start`; the API listens on port `8081`.
 
-## Installation
-* Create a PostgreSQL database by renaming `.env.sample` to `.env` and updating the information to your details.
-* Run `yarn install` to install dependencies.
-* Run `yarn start` to compile the app and connect to server `localhost: 8081`
-
----
-
-## Credits
-Base project: [CRUD with NodeJS & PostgreSQL](https://github.com/TomisinAjayi/CRUD-with-NodeJS-PostgreSQL) by @TomisinAjayi — used as a starting template.
+The database tables are synchronized by Sequelize when the server starts. Existing data is not migrated into child records.
